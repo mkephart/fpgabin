@@ -7,8 +7,12 @@ class MemType:
         self.vals = vals
 
     def pack_val(self,val,stream=''):
-        """Packs one value as the type specified in self.fmt."""
-        return stream + struct.pack(">"+self.fmt,val)
+        """Packs one value as the type specified in self.fmt. If input
+        value is invalid for given format, ValueError is raised."""
+        try:
+            return stream + struct.pack(">"+self.fmt,val)
+        except:
+            raise ValueError
 
     def pack_mem(self,stream=''):
         """Creates concatenated binary stream of an array."""
@@ -16,7 +20,7 @@ class MemType:
             stream = self.pack_val(v,stream)
         return stream
 
-    def write_file():
+    def write_file(self):
         """Writes files as e.g. 'RegMem.bin'. If an input array is
         not provided, or if the input array is the wrong size, the
         memory type is skipped and no file is written."""

@@ -1,3 +1,4 @@
 include LICENSE README
-include docs/*.html
-
+include docs/*
+include docs/*/*
+include fpgabin/*.bin

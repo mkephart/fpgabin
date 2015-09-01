@@ -78,7 +78,8 @@ selection.</p>
 <dl class="method">
 <dt id="fpga.MemType.pack_val">
 <tt class="descname">pack_val</tt><big>(</big><em>val</em>, <em>stream=''</em><big>)</big><a class="reference internal" href="_modules/fpga.html#MemType.pack_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fpga.MemType.pack_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>Packs one value as the type specified in self.fmt.</p>
+<dd><p>Packs one value as the type specified in self.fmt. If input
+value is invalid for given format, ValueError is raised.</p>
 </dd></dl>
 
 <dl class="method">
@@ -116,6 +117,111 @@ memory type is skipped and no file is written.</p>
 Iterables passed in must be of the correct order and size. If one of
 the types is not set, or is of the wrong size, it will be skipped (no
 values will be written).</p>
+</dd></dl>
+
+<span class="target" id="module-test_fpga"></span><dl class="class">
+<dt id="test_fpga.TestPackMem">
+<em class="property">class </em><tt class="descclassname">test_fpga.</tt><tt class="descname">TestPackMem</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackMem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackMem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the binary stream produced from an array of values.</p>
+<dl class="method">
+<dt id="test_fpga.TestPackMem.test_empty_array">
+<tt class="descname">test_empty_array</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackMem.test_empty_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackMem.test_empty_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Empty array of any type produces empty string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestPackMem.test_value16">
+<tt class="descname">test_value16</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackMem.test_value16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackMem.test_value16" title="Permalink to this definition">¶</a></dt>
+<dd><p>16-bit values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestPackMem.test_value8">
+<tt class="descname">test_value8</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackMem.test_value8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackMem.test_value8" title="Permalink to this definition">¶</a></dt>
+<dd><p>8-bit values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="test_fpga.TestPackVal">
+<em class="property">class </em><tt class="descclassname">test_fpga.</tt><tt class="descname">TestPackVal</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackVal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackVal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests that a value of various types is correctly converted
+to binary.</p>
+<dl class="method">
+<dt id="test_fpga.TestPackVal.test_16bit">
+<tt class="descname">test_16bit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackVal.test_16bit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackVal.test_16bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>16-bit value, type = &#8220;H&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestPackVal.test_64bit">
+<tt class="descname">test_64bit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackVal.test_64bit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackVal.test_64bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>64-bit value, type = &#8220;Q&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestPackVal.test_8bit">
+<tt class="descname">test_8bit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackVal.test_8bit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackVal.test_8bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>8-bit value, type = &#8220;B&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestPackVal.test_invalid_vals">
+<tt class="descname">test_invalid_vals</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestPackVal.test_invalid_vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestPackVal.test_invalid_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value outside allowed range raises ValueError.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="test_fpga.TestUploadToFPGA">
+<em class="property">class </em><tt class="descclassname">test_fpga.</tt><tt class="descname">TestUploadToFPGA</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests that arrays are successfully written to binary files.</p>
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.get_32bit">
+<tt class="descname">get_32bit</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.get_32bit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.get_32bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a binary file as a set of 32-bit values (as read
+by the FPGA).</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="test_fpga.TestUploadToFPGA.setUpClass">
+<em class="property">classmethod </em><tt class="descname">setUpClass</tt><big>(</big><em>TestUploadToFPGA</em><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.setUpClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a small set of values into memory, of all 5 different types.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.test_check_hskmem">
+<tt class="descname">test_check_hskmem</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.test_check_hskmem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.test_check_hskmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests housekeeping memory (8-bit values).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.test_check_prgmem">
+<tt class="descname">test_check_prgmem</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.test_check_prgmem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.test_check_prgmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests program memory (64-bit values).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.test_check_regmem">
+<tt class="descname">test_check_regmem</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.test_check_regmem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.test_check_regmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests register memory (16-bit values).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.test_check_seqmem">
+<tt class="descname">test_check_seqmem</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.test_check_seqmem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.test_check_seqmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests sequence memory (64-bit values).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_fpga.TestUploadToFPGA.test_update">
+<tt class="descname">test_update</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/test_fpga.html#TestUploadToFPGA.test_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_fpga.TestUploadToFPGA.test_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests that if a new array is input, the file is changed
+(and no other files are altered).</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>

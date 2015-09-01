@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>test_fpga &mdash; fpgabin 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="fpgabin 0.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">fpgabin 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for test_fpga</h1><div class="highlight"><pre>
+<span class="c">#! /usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">fpga</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<div class="viewcode-block" id="TestPackVal"><a class="viewcode-back" href="../index.html#test_fpga.TestPackVal">[docs]</a><span class="k">class</span> <span class="nc">TestPackVal</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests that a value of various types is correctly converted</span>
+<span class="sd">    to binary.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">fpga</span><span class="o">.</span><span class="n">MemType</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TestPackVal.test_8bit"><a class="viewcode-back" href="../index.html#test_fpga.TestPackVal.test_8bit">[docs]</a>    <span class="k">def</span> <span class="nf">test_8bit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;8-bit value, type = &quot;B&quot;.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;B&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x01</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">255</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\xff</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestPackVal.test_16bit"><a class="viewcode-back" href="../index.html#test_fpga.TestPackVal.test_16bit">[docs]</a>    <span class="k">def</span> <span class="nf">test_16bit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;16-bit value, type = &quot;H&quot;.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;H&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x00\x01</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1024</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x04\x00</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestPackVal.test_64bit"><a class="viewcode-back" href="../index.html#test_fpga.TestPackVal.test_64bit">[docs]</a>    <span class="k">def</span> <span class="nf">test_64bit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;64-bit value, type = &quot;Q&quot;.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x01</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">18374686479671623680</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\xff\x00\x00\x00\x00\x00\x00\x00</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestPackVal.test_invalid_vals"><a class="viewcode-back" href="../index.html#test_fpga.TestPackVal.test_invalid_vals">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Value outside allowed range raises ValueError.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;B&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">256</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_val</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="TestPackMem"><a class="viewcode-back" href="../index.html#test_fpga.TestPackMem">[docs]</a><span class="k">class</span> <span class="nc">TestPackMem</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests the binary stream produced from an array of values.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">fpga</span><span class="o">.</span><span class="n">MemType</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TestPackMem.test_value8"><a class="viewcode-back" href="../index.html#test_fpga.TestPackMem.test_value8">[docs]</a>    <span class="k">def</span> <span class="nf">test_value8</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;8-bit values.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;B&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">expout</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x01\x02\x03\x04</span><span class="s">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">expout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_mem</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="TestPackMem.test_value16"><a class="viewcode-back" href="../index.html#test_fpga.TestPackMem.test_value16">[docs]</a>    <span class="k">def</span> <span class="nf">test_value16</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;16-bit values.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;H&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">expout</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x00\x01\x00\x02\x00\x03\x00\x04</span><span class="s">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">expout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_mem</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="TestPackMem.test_empty_array"><a class="viewcode-back" href="../index.html#test_fpga.TestPackMem.test_empty_array">[docs]</a>    <span class="k">def</span> <span class="nf">test_empty_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Empty array of any type produces empty string.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;B&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_mem</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pack_mem</span><span class="p">())</span>
+</div></div>
+<div class="viewcode-block" id="TestUploadToFPGA"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA">[docs]</a><span class="k">class</span> <span class="nc">TestUploadToFPGA</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests that arrays are successfully written to binary files.&quot;&quot;&quot;</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TestUploadToFPGA.setUpClass"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.setUpClass">[docs]</a>    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="n">TestUploadToFPGA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a small set of values into memory, of all 5 different types.&quot;&quot;&quot;</span>
+        <span class="n">regmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">12</span>
+        <span class="n">prgmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">18</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">508</span>
+        <span class="n">hskmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">508</span>
+        <span class="n">seqmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">1022</span>
+        <span class="n">clvmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">126</span>
+        <span class="n">fpga</span><span class="o">.</span><span class="n">upload_to_fpga</span><span class="p">(</span><span class="n">REG_MEM</span><span class="o">=</span><span class="n">regmem</span><span class="p">,</span> <span class="n">SEQ_MEM</span><span class="o">=</span><span class="n">seqmem</span><span class="p">,</span> <span class="n">PRG_MEM</span><span class="o">=</span><span class="n">prgmem</span><span class="p">,</span>
+                            <span class="n">HSK_SEL_MEM</span><span class="o">=</span><span class="n">hskmem</span><span class="p">,</span><span class="n">VOLT_MEM</span><span class="o">=</span><span class="n">clvmem</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.get_32bit"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.get_32bit">[docs]</a>    <span class="k">def</span> <span class="nf">get_32bit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads a binary file as a set of 32-bit values (as read</span>
+<span class="sd">        by the FPGA).&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="o">+</span><span class="s">&quot;I&quot;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">data</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.test_check_regmem"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.test_check_regmem">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_regmem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tests register memory (16-bit values).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">65542</span><span class="p">,</span><span class="mi">524292</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;RegMem.bin&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.test_check_prgmem"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.test_check_prgmem">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_prgmem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tests program memory (64-bit values).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">1016</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;PrgMem.bin&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.test_check_hskmem"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.test_check_hskmem">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_hskmem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tests housekeeping memory (8-bit values).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">66051</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">127</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;HSKMem.bin&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.test_check_seqmem"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.test_check_seqmem">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_seqmem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tests sequence memory (64-bit values).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2044</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;SeqMem.bin&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestUploadToFPGA.test_update"><a class="viewcode-back" href="../index.html#test_fpga.TestUploadToFPGA.test_update">[docs]</a>    <span class="k">def</span> <span class="nf">test_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tests that if a new array is input, the file is changed</span>
+<span class="sd">        (and no other files are altered).&quot;&quot;&quot;</span>
+        <span class="n">clvmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">19</span><span class="p">,</span><span class="mi">27</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">126</span>
+        <span class="n">fpga</span><span class="o">.</span><span class="n">upload_to_fpga</span><span class="p">(</span><span class="n">VOLT_MEM</span><span class="o">=</span><span class="n">clvmem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">1245211</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">63</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;CLVMem.bin&#39;</span><span class="p">))</span>
+        <span class="n">clvmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">128</span>
+        <span class="n">fpga</span><span class="o">.</span><span class="n">upload_to_fpga</span><span class="p">(</span><span class="n">VOLT_MEM</span><span class="o">=</span><span class="n">clvmem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">64</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;CLVMem.bin&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">65542</span><span class="p">,</span><span class="mi">524292</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;RegMem.bin&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2044</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;SeqMem.bin&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">1016</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;PrgMem.bin&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([</span><span class="mi">66051</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">127</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_32bit</span><span class="p">(</span><span class="s">&#39;HSKMem.bin&#39;</span><span class="p">))</span>
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="nb">buffer</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">fpgabin 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Miranda Kephart.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

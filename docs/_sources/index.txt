@@ -12,6 +12,8 @@ Contents:
    :maxdepth: 2
 .. automodule:: fpga
 	:members:
+.. automodule:: test_fpga
+	:members:
 
 
 Indices and tables

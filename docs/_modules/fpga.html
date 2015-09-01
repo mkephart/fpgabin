@@ -56,8 +56,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
 
 <div class="viewcode-block" id="MemType.pack_val"><a class="viewcode-back" href="../index.html#fpga.MemType.pack_val">[docs]</a>    <span class="k">def</span> <span class="nf">pack_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">stream</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Packs one value as the type specified in self.fmt.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">stream</span> <span class="o">+</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Packs one value as the type specified in self.fmt. If input</span>
+<span class="sd">        value is invalid for given format, ValueError is raised.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">stream</span> <span class="o">+</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
 </div>
 <div class="viewcode-block" id="MemType.pack_mem"><a class="viewcode-back" href="../index.html#fpga.MemType.pack_mem">[docs]</a>    <span class="k">def</span> <span class="nf">pack_mem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">stream</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates concatenated binary stream of an array.&quot;&quot;&quot;</span>
@@ -65,7 +69,7 @@
             <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">stream</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stream</span>
 </div>
-<div class="viewcode-block" id="MemType.write_file"><a class="viewcode-back" href="../index.html#fpga.MemType.write_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_file</span><span class="p">():</span>
+<div class="viewcode-block" id="MemType.write_file"><a class="viewcode-back" href="../index.html#fpga.MemType.write_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Writes files as e.g. &#39;RegMem.bin&#39;. If an input array is</span>
 <span class="sd">        not provided, or if the input array is the wrong size, the</span>
 <span class="sd">        memory type is skipped and no file is written.&quot;&quot;&quot;</span>

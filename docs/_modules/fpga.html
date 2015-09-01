@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fpga &mdash; fpgabin 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="fpgabin 0.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">fpgabin 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for fpga</h1><div class="highlight"><pre>
+<span class="c">#! /usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<div class="viewcode-block" id="MemType"><a class="viewcode-back" href="../index.html#fpga.MemType">[docs]</a><span class="k">class</span> <span class="nc">MemType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class for writing various memory types&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+
+<div class="viewcode-block" id="MemType.pack_val"><a class="viewcode-back" href="../index.html#fpga.MemType.pack_val">[docs]</a>    <span class="k">def</span> <span class="nf">pack_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">stream</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Packs one value as the type specified in self.fmt.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">stream</span> <span class="o">+</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="MemType.pack_mem"><a class="viewcode-back" href="../index.html#fpga.MemType.pack_mem">[docs]</a>    <span class="k">def</span> <span class="nf">pack_mem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">stream</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates concatenated binary stream of an array.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vals</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_val</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">stream</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stream</span>
+</div>
+<div class="viewcode-block" id="MemType.write_file"><a class="viewcode-back" href="../index.html#fpga.MemType.write_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_file</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Writes files as e.g. &#39;RegMem.bin&#39;. If an input array is</span>
+<span class="sd">        not provided, or if the input array is the wrong size, the</span>
+<span class="sd">        memory type is skipped and no file is written.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;Writing &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39; binary...&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vals</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_mem</span><span class="p">()</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;.bin&#39;</span><span class="p">,</span><span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&#39;File written: &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;.bin&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;Error: input array for &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;is not the right &#39;</span><span class="o">+</span>\
+                        <span class="s">&#39;size (should be &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;). Skipping.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;No array provided, skipping.&#39;</span>
+
+</div></div>
+<div class="viewcode-block" id="RegMem"><a class="viewcode-back" href="../index.html#fpga.RegMem">[docs]</a><span class="k">class</span> <span class="nc">RegMem</span><span class="p">(</span><span class="n">MemType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register memory; contains housekeeping and sequence control values.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;RegMem&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;H&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">16</span>
+</div>
+<div class="viewcode-block" id="SeqMem"><a class="viewcode-back" href="../index.html#fpga.SeqMem">[docs]</a><span class="k">class</span> <span class="nc">SeqMem</span><span class="p">(</span><span class="n">MemType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sequence memory; contains programs that control CCD clocks.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;SeqMem&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">1024</span>
+</div>
+<div class="viewcode-block" id="PrgMem"><a class="viewcode-back" href="../index.html#fpga.PrgMem">[docs]</a><span class="k">class</span> <span class="nc">PrgMem</span><span class="p">(</span><span class="n">MemType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Program memory; contains the programs that control the sequencer.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;PrgMem&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">512</span>
+</div>
+<div class="viewcode-block" id="HskMem"><a class="viewcode-back" href="../index.html#fpga.HskMem">[docs]</a><span class="k">class</span> <span class="nc">HskMem</span><span class="p">(</span><span class="n">MemType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Housekeeping memory; contains values for housekeeping component sample</span>
+<span class="sd">    selection.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;HSKMem&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;B&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">512</span>
+</div>
+<div class="viewcode-block" id="CLVMem"><a class="viewcode-back" href="../index.html#fpga.CLVMem">[docs]</a><span class="k">class</span> <span class="nc">CLVMem</span><span class="p">(</span><span class="n">MemType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Clock level voltage memory; contains values for programming FPE clock</span>
+<span class="sd">    level voltages via DACs.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;CLVMem&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;H&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">128</span>
+</div>
+<div class="viewcode-block" id="upload_to_fpga"><a class="viewcode-back" href="../index.html#fpga.upload_to_fpga">[docs]</a><span class="k">def</span> <span class="nf">upload_to_fpga</span><span class="p">(</span><span class="n">REG_MEM</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">SEQ_MEM</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">PRG_MEM</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">HSK_SEL_MEM</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                        <span class="n">VOLT_MEM</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Writes binary files of appropriate type for each array loaded in.</span>
+<span class="sd">    Iterables passed in must be of the correct order and size. If one of</span>
+<span class="sd">    the types is not set, or is of the wrong size, it will be skipped (no</span>
+<span class="sd">    values will be written).&quot;&quot;&quot;</span>
+    <span class="n">RegMem</span><span class="p">(</span><span class="n">REG_MEM</span><span class="p">)</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span>
+    <span class="n">SeqMem</span><span class="p">(</span><span class="n">SEQ_MEM</span><span class="p">)</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span>
+    <span class="n">PrgMem</span><span class="p">(</span><span class="n">PRG_MEM</span><span class="p">)</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span>
+    <span class="n">HskMem</span><span class="p">(</span><span class="n">HSK_SEL_MEM</span><span class="p">)</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span>
+    <span class="n">CLVMem</span><span class="p">(</span><span class="n">VOLT_MEM</span><span class="p">)</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">fpgabin 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Miranda Kephart.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

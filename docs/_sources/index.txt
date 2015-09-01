@@ -1,0 +1,23 @@
+.. fpgabin documentation master file, created by
+   sphinx-quickstart on Tue Sep  1 10:27:43 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to fpgabin's documentation!
+===================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+.. automodule:: fpga
+	:members:
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
